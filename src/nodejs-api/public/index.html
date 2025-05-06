@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grasshopper Model Generator</title>
+</head>
+<body>
+  <h1>Upload Vectors and Parameters</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <label>Terrain File:</label><br>
+    <input type="file" name="terrain" required><br><br>
+
+    <label>Buildable File:</label><br>
+    <input type="file" name="buildable" required><br><br>
+
+    <label>Param1:</label><br>
+    <input type="number" name="param1" step="any" required><br><br>
+
+    <label>Param2:</label><br>
+    <input type="number" name="param2" step="any" required><br><br>
+
+    <button type="submit">Generate</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      const response = await fetch('/generate', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      document.getElementById('response').innerText = JSON.stringify(result, null, 2);
+    });
+  </script>
+</body>
+</html>
